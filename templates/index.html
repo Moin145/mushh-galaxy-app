@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetMirror - Watch Movies & TV Shows Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <meta name="description" content="Watch movies and TV shows online for free. Stream HD quality content without registration.">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-film me-2"></i>NetMirror
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#movies">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tv-shows">TV Shows</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
+                    </li>
+                </ul>
+                <form class="d-flex" id="search-form">
+                    <input class="form-control me-2" type="search" id="search-input" placeholder="Search movies..." aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="hero-title">Watch Movies & TV Shows Online</h1>
+                        <p class="hero-subtitle">Stream thousands of movies and TV shows in HD quality. No registration required. Multiple streaming sources for the best experience.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-lg me-3" onclick="scrollToSection('movies')">
+                                <i class="fas fa-play me-2"></i>Start Watching
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('categories')">
+                                <i class="fas fa-list me-2"></i>Browse Categories
+                            </button>
+                        </div>
+                        <div class="hero-features mt-4">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>No Registration Required</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>HD Quality Streaming</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Multiple Sources</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="hero-image">
+                            <i class="fas fa-film hero-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div id="loading" class="loading-indicator d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Searching for movies...</p>
+    </div>
+
+    <!-- Search Results -->
+    <section id="search-results" class="search-results d-none">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="section-title">Search Results</h2>
+                <button class="btn btn-outline-secondary" onclick="clearSearch()">
+                    <i class="fas fa-times me-2"></i>Clear Results
+                </button>
+            </div>
+            <div id="movies-grid" class="movies-grid"></div>
+        </div>
+    </section>
+
+    <!-- Popular Movies -->
+    <section id="movies" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Popular Movies</h2>
+            <div class="movies-grid" id="popular-movies">
+                <!-- Movies will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Browse by Category</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="category-card" onclick="searchMovies('action')">
+                        <div class="category-icon">
+                            <i class="fas fa-fist-raised"></i>
+                        </div>
+                        <h3>Action</h3>
+                        <p>Explosive action movies and thrillers</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="category-card" onclick="searchMovies('comedy')">
+                        <div class="category-icon">
+                            <i class="fas fa-laugh"></i>
+                        </div>
+                        <h3>Comedy</h3>
+                        <p>Funny movies and comedies</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="category-card" onclick="searchMovies('drama')">
+                        <div class="category-icon">
+                            <i class="fas fa-theater-masks"></i>
+                        </div>
+                        <h3>Drama</h3>
+                        <p>Emotional and compelling dramas</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="category-card" onclick="searchMovies('horror')">
+                        <div class="category-icon">
+                            <i class="fas fa-ghost"></i>
+                        </div>
+                        <h3>Horror</h3>
+                        <p>Scary and thrilling horror movies</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="category-card" onclick="searchMovies('sci-fi')">
+                        <div class="category-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Sci-Fi</h3>
+                        <p>Science fiction and futuristic movies</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="category-card" onclick="searchMovies('romance')">
+                        <div class="category-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Romance</h3>
+                        <p>Love stories and romantic comedies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title text-center">Why Choose NetMirror?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <h3>Instant Streaming</h3>
+                        <p>Watch movies instantly without any registration or signup required. Multiple streaming sources ensure availability.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-hd-video"></i>
+                        </div>
+                        <h3>HD Quality</h3>
+                        <p>Enjoy movies in high definition with multiple quality options. Adaptive streaming for smooth playback.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Mobile Friendly</h3>
+                        <p>Watch on any device - desktop, tablet, or mobile phone. Responsive design for all screen sizes.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Multiple Sources</h3>
+                        <p>Intelligent fallback system with multiple streaming sources. Always find a working stream.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Easy Search</h3>
+                        <p>Find movies quickly with our powerful search engine. Browse by genre, year, or popularity.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Safe & Secure</h3>
+                        <p>Safe streaming experience with no downloads required. Your privacy and security are our priority.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-film me-2"></i>NetMirror</h5>
+                    <p>Your ultimate destination for streaming movies and TV shows online. Experience the best of entertainment with our comprehensive collection.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Quick Links</h5>
+                            <ul class="footer-links">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="#movies">Movies</a></li>
+                                <li><a href="#categories">Categories</a></li>
+                                <li><a href="/api/test-stream">Test Stream</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Support</h5>
+                            <ul class="footer-links">
+                                <li><a href="#" onclick="showNotification('Help system coming soon!', 'info')">Help</a></li>
+                                <li><a href="#" onclick="showNotification('FAQ section in development', 'info')">FAQ</a></li>
+                                <li><a href="#" onclick="showNotification('Contact form available soon', 'info')">Contact</a></li>
+                                <li><a href="#" onclick="showNotification('Privacy policy available', 'info')">Privacy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2025 NetMirror. All rights reserved. | Built with Flask & Bootstrap</p>
+                <p class="small text-muted">Disclaimer: This is a demo application. All content is sourced from publicly available APIs.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
