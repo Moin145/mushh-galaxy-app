@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOinMirror</title>
+    <link rel="preload" href="{{ url_for('static', filename='style.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='main.js') }}" as="script">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">MoinMIRROR</div>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Search for movies, TV shows..." autocomplete="off">
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <h1 id="hero-title">Loading...</h1>
+            <p id="hero-overview"></p>
+            <button id="hero-play-btn">&#9658; Watch Now</button>
+        </div>
+    </section>
+
+    <!-- Search Results (hidden by default) -->
+    <section id="search-results" style="display:none;">
+        <h2>Search Results</h2>
+        <div class="row-posters"></div>
+    </section>
+
+    <!-- Movie Rows -->
+    <main>
+        <section class="movie-row" data-section="only-on-netflix">
+            <h2>Only on Netflix</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="documentaries">
+            <h2>Documentaries</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="dubbed-tamil">
+            <h2>Movies & TV Shows Dubbed in Tamil</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="top-10-movies">
+            <h2>Top 10 Movies in Netflix Today</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="asian-tv">
+            <h2>Asian TV Shows</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="anime">
+            <h2>Anime</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="comedy-movies">
+            <h2>Comedy Movies</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+        <section class="movie-row" data-section="blockbuster-movies">
+            <h2>Blockbuster Movies</h2>
+            <div class="row-arrows">
+                <button class="arrow left">&#10094;</button>
+                <button class="arrow right">&#10095;</button>
+            </div>
+            <div class="row-posters"></div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
