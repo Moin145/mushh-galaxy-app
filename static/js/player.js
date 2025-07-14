@@ -96,8 +96,13 @@ class NetMirrorPlayer {
         sourceButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                const source = e.target.getAttribute('onclick').match(/'([^']+)'/)[1];
-                this.loadStream(source);
+                const onclickAttr = e.target.getAttribute('onclick');
+                if (onclickAttr) {
+                    const match = onclickAttr.match(/'([^']+)'/);
+                    if (match && match[1]) {
+                        this.loadStream(match[1]);
+                    }
+                }
             });
         });
     }
@@ -491,6 +496,12 @@ class NetMirrorPlayer {
         
         console.log(`Switching to source: ${nextSource}`);
         await this.loadStream(nextSource);
+    }
+    
+    getNextSource() {
+        const currentIndex = this.availableSources.indexOf(this.currentSource);
+        const nextIndex = (currentIndex + 1) % this.availableSources.length;
+        return this.availableSources[nextIndex];
     }
     
     destroy() {

@@ -45,43 +45,57 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section" id="hero-section">
+        <div class="hero-background" id="hero-background"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <h1 class="hero-title">Watch Movies & TV Shows Online</h1>
-                        <p class="hero-subtitle">Stream thousands of movies and TV shows in HD quality. No registration required. Multiple streaming sources for the best experience.</p>
-                        <div class="hero-buttons">
-                            <button class="btn btn-primary btn-lg me-3" onclick="scrollToSection('movies')">
-                                <i class="fas fa-play me-2"></i>Start Watching
-                            </button>
-                            <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('categories')">
-                                <i class="fas fa-list me-2"></i>Browse Categories
-                            </button>
-                        </div>
-                        <div class="hero-features mt-4">
-                            <div class="feature-item">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>No Registration Required</span>
+                        <div class="hero-movie-info">
+                            <h1 class="hero-title" id="hero-title">Watch Movies & TV Shows Online</h1>
+                            <p class="hero-subtitle" id="hero-subtitle">Stream thousands of movies and TV shows in HD quality. No registration required. Multiple streaming sources for the best experience.</p>
+                            <div class="hero-meta" id="hero-meta">
+                                <span class="hero-year" id="hero-year"></span>
+                                <span class="hero-rating" id="hero-rating"></span>
+                                <span class="hero-genre" id="hero-genre"></span>
                             </div>
-                            <div class="feature-item">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>HD Quality Streaming</span>
+                            <div class="hero-buttons">
+                                <button class="btn btn-primary btn-lg me-3" id="hero-watch-btn" onclick="scrollToSection('movies')">
+                                    <i class="fas fa-play me-2"></i>Start Watching
+                                </button>
+                                <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('categories')">
+                                    <i class="fas fa-list me-2"></i>Browse Categories
+                                </button>
                             </div>
-                            <div class="feature-item">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <span>Multiple Sources</span>
+                            <div class="hero-features mt-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>No Registration Required</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>HD Quality Streaming</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Multiple Sources</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="hero-image">
-                            <i class="fas fa-film hero-icon"></i>
+                        <div class="hero-poster">
+                            <img id="hero-poster" src="" alt="Featured Movie" class="img-fluid" style="display: none;">
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Navigation dots -->
+        <div class="hero-navigation">
+            <div class="hero-dots" id="hero-dots"></div>
         </div>
     </section>
 

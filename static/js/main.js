@@ -33,6 +33,9 @@ function initializeApp() {
     // Setup smooth scrolling
     setupSmoothScrolling();
     
+    // Initialize hero rotation
+    initializeHeroRotation();
+    
     console.log('NetMirror app initialized');
 }
 
@@ -341,6 +344,160 @@ function showNotification(message, type = 'info') {
             notification.parentNode.removeChild(notification);
         }
     }, 5000);
+}
+
+// Hero rotation functionality
+let heroMovies = [];
+let currentHeroIndex = 0;
+let heroInterval = null;
+
+function initializeHeroRotation() {
+    loadHeroMovies();
+}
+
+async function loadHeroMovies() {
+    try {
+        const trendingMovies = [
+            'Squid Game',
+            'The Dark Knight',
+            'Inception',
+            'Avengers: Endgame',
+            'Stranger Things',
+            'Wednesday',
+            'The Witcher',
+            'Breaking Bad',
+            'Game of Thrones',
+            'The Matrix'
+        ];
+        
+        heroMovies = [];
+        
+        for (let i = 0; i < Math.min(5, trendingMovies.length); i++) {
+            try {
+                const response = await fetch(`/search?q=${encodeURIComponent(trendingMovies[i])}`);
+                const data = await response.json();
+                if (data.movies && data.movies.length > 0) {
+                    heroMovies.push(data.movies[0]);
+                }
+            } catch (error) {
+                console.error(`Error loading hero movie ${trendingMovies[i]}:`, error);
+            }
+        }
+        
+        if (heroMovies.length > 0) {
+            setupHeroRotation();
+        }
+    } catch (error) {
+        console.error('Error loading hero movies:', error);
+    }
+}
+
+function setupHeroRotation() {
+    if (heroMovies.length === 0) return;
+    
+    // Create navigation dots
+    const heroDotsContainer = document.getElementById('hero-dots');
+    if (heroDotsContainer) {
+        heroDotsContainer.innerHTML = '';
+        heroMovies.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.className = `hero-dot ${index === 0 ? 'active' : ''}`;
+            dot.onclick = () => showHeroMovie(index);
+            heroDotsContainer.appendChild(dot);
+        });
+    }
+    
+    // Show first movie
+    showHeroMovie(0);
+    
+    // Start auto rotation
+    startHeroRotation();
+}
+
+function showHeroMovie(index) {
+    if (index >= heroMovies.length) return;
+    
+    const movie = heroMovies[index];
+    currentHeroIndex = index;
+    
+    // Update hero content
+    const heroTitle = document.getElementById('hero-title');
+    const heroSubtitle = document.getElementById('hero-subtitle');
+    const heroYear = document.getElementById('hero-year');
+    const heroRating = document.getElementById('hero-rating');
+    const heroGenre = document.getElementById('hero-genre');
+    const heroPoster = document.getElementById('hero-poster');
+    const heroWatchBtn = document.getElementById('hero-watch-btn');
+    const heroBackground = document.getElementById('hero-background');
+    
+    if (heroTitle) {
+        heroTitle.textContent = movie.title;
+    }
+    
+    if (heroSubtitle) {
+        heroSubtitle.textContent = movie.plot || 'Experience this amazing movie with high-quality streaming. No registration required.';
+    }
+    
+    if (heroYear) {
+        heroYear.textContent = movie.year || '';
+        heroYear.style.display = movie.year ? 'inline-block' : 'none';
+    }
+    
+    if (heroRating) {
+        heroRating.textContent = movie.rating || '';
+        heroRating.style.display = movie.rating ? 'inline-block' : 'none';
+    }
+    
+    if (heroGenre) {
+        heroGenre.textContent = movie.genre || '';
+        heroGenre.style.display = movie.genre ? 'inline-block' : 'none';
+    }
+    
+    if (heroPoster && movie.poster && movie.poster !== 'N/A') {
+        heroPoster.src = movie.poster;
+        heroPoster.alt = movie.title;
+        heroPoster.style.display = 'block';
+    }
+    
+    if (heroWatchBtn) {
+        heroWatchBtn.onclick = () => watchMovie(movie.imdb_id);
+    }
+    
+    if (heroBackground && movie.poster && movie.poster !== 'N/A') {
+        heroBackground.style.backgroundImage = `url(${movie.poster})`;
+        heroBackground.style.backgroundSize = 'cover';
+        heroBackground.style.backgroundPosition = 'center';
+        heroBackground.style.filter = 'blur(20px)';
+        heroBackground.style.opacity = '0.3';
+    }
+    
+    // Update navigation dots
+    const dots = document.querySelectorAll('.hero-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+}
+
+function startHeroRotation() {
+    if (heroMovies.length <= 1) return;
+    
+    // Clear existing interval
+    if (heroInterval) {
+        clearInterval(heroInterval);
+    }
+    
+    // Start new interval
+    heroInterval = setInterval(() => {
+        const nextIndex = (currentHeroIndex + 1) % heroMovies.length;
+        showHeroMovie(nextIndex);
+    }, 5000); // Change every 5 seconds
+}
+
+function stopHeroRotation() {
+    if (heroInterval) {
+        clearInterval(heroInterval);
+        heroInterval = null;
+    }
 }
 
 // Export functions for global use

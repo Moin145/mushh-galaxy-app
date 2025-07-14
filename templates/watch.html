@@ -193,9 +193,31 @@
     <script>
         // Initialize player with IMDb ID
         const imdbId = "{{ imdb_id }}";
+        let netMirrorPlayer = null;
+        
         document.addEventListener('DOMContentLoaded', function() {
-            initializePlayer(imdbId);
+            netMirrorPlayer = new NetMirrorPlayer(imdbId);
         });
+        
+        // Global functions for source buttons
+        function loadStream(source) {
+            if (netMirrorPlayer) {
+                netMirrorPlayer.loadStream(source);
+            }
+        }
+        
+        function retryStream() {
+            if (netMirrorPlayer) {
+                netMirrorPlayer.loadStream(netMirrorPlayer.currentSource || 'auto');
+            }
+        }
+        
+        function tryDifferentSource() {
+            if (netMirrorPlayer) {
+                const nextSource = netMirrorPlayer.getNextSource();
+                netMirrorPlayer.loadStream(nextSource);
+            }
+        }
     </script>
 </body>
 </html>
