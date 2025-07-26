@@ -64,9 +64,12 @@ def search_movies_by_keyword(keyword):
     """
     logger.info(f"Searching movies with keyword: {keyword}")
     
+    all_movies = []
+    
     # Try multiple API keys
     for api_key in OMDB_API_KEYS:
         try:
+            # Search with the original keyword
             url = f"http://www.omdbapi.com/?apikey={api_key}&s={keyword}&type=movie"
             response = requests.get(url, timeout=10)
             
@@ -81,18 +84,69 @@ def search_movies_by_keyword(keyword):
             search_results = data.get("Search", [])
             
             # Filter and clean results
-            movies = []
             for movie in search_results:
                 if movie.get("Type") == "movie" and movie.get("imdbID"):
-                    movies.append({
+                    movie_data = {
                         "Title": movie.get("Title"),
                         "Year": movie.get("Year"),
                         "imdbID": movie.get("imdbID"),
                         "Poster": movie.get("Poster") if movie.get("Poster") != "N/A" else None
-                    })
+                    }
+                    # Avoid duplicates
+                    if not any(m["imdbID"] == movie_data["imdbID"] for m in all_movies):
+                        all_movies.append(movie_data)
             
-            logger.info(f"Found {len(movies)} movies for keyword: {keyword}")
-            return movies[:25]  # Return max 25 results
+            # Also try searching for common variations for series
+            if keyword.lower() in ['bahubali', 'avengers', 'batman', 'spider-man', 'harry potter', 'lord of the rings']:
+                variations = [
+                    f"{keyword} part",
+                    f"{keyword} chapter", 
+                    f"{keyword} volume",
+                    f"{keyword} episode",
+                    f"{keyword} 1",
+                    f"{keyword} 2",
+                    f"{keyword} 3",
+                    f"{keyword} the beginning",
+                    f"{keyword} the conclusion",
+                    f"{keyword} the final chapter"
+                ]
+                
+                # Special handling for Bahubali
+                if keyword.lower() == 'bahubali':
+                    variations.extend([
+                        "Baahubali",
+                        "Baahubali: The Beginning",
+                        "Baahubali 2: The Conclusion",
+                        "Baahubali: The Beginning",
+                        "Baahubali: The Conclusion"
+                    ])
+                
+                for variation in variations:
+                    try:
+                        var_url = f"http://www.omdbapi.com/?apikey={api_key}&s={variation}&type=movie"
+                        var_response = requests.get(var_url, timeout=10)
+                        
+                        if var_response.status_code == 200:
+                            var_data = var_response.json()
+                            if var_data.get("Response") == "True":
+                                var_results = var_data.get("Search", [])
+                                for movie in var_results:
+                                    if movie.get("Type") == "movie" and movie.get("imdbID"):
+                                        movie_data = {
+                                            "Title": movie.get("Title"),
+                                            "Year": movie.get("Year"),
+                                            "imdbID": movie.get("imdbID"),
+                                            "Poster": movie.get("Poster") if movie.get("Poster") != "N/A" else None
+                                        }
+                                        # Avoid duplicates
+                                        if not any(m["imdbID"] == movie_data["imdbID"] for m in all_movies):
+                                            all_movies.append(movie_data)
+                    except Exception as e:
+                        logger.error(f"Error searching variation {variation}: {str(e)}")
+                        continue
+            
+            logger.info(f"Found {len(all_movies)} total movies for keyword: {keyword}")
+            return all_movies[:50]  # Return up to 50 results for better series coverage
             
         except Exception as e:
             logger.error(f"Error with API key {api_key}: {str(e)}")

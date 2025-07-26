@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetMirror - Watch Movies & TV Shows Online</title>
+    <title>Moin's Multiverse - Watch Movies & TV Shows Online</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -14,7 +14,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-film me-2"></i>NetMirror
+                <i class="fas fa-film text-danger me-2"></i>
+                <span class="brand-text">Mushh's Galaxy</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -22,16 +23,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
+                        <a class="nav-link active" href="/" data-section="home">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#movies">Movies</a>
+                        <a class="nav-link" href="#movies" data-section="movies">
+                            <i class="fas fa-film me-1"></i>Movies
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tv-shows">TV Shows</a>
+                        <a class="nav-link" href="#tv-shows" data-section="tv-shows">
+                            <i class="fas fa-tv me-1"></i>TV Shows
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#categories">Categories</a>
+                        <a class="nav-link" href="#categories" data-section="categories">
+                            <i class="fas fa-th-large me-1"></i>Categories
+                        </a>
                     </li>
                 </ul>
                 <form class="d-flex" id="search-form">
@@ -49,7 +58,7 @@
         <div class="hero-background" id="hero-background"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero-movie-info">
@@ -84,11 +93,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="hero-poster">
-                            <img id="hero-poster" src="" alt="Featured Movie" class="img-fluid" style="display: none;">
-                        </div>
-                    </div>
+                </div>
+            </div>
+            
+            <!-- Movie Carousel -->
+            <div class="movie-carousel">
+                <div class="carousel-container" id="featured-carousel">
+                    <!-- Movies will be loaded here dynamically -->
+                </div>
+                <div class="carousel-indicators" id="carousel-indicators">
+                    <!-- Indicators will be added dynamically -->
                 </div>
             </div>
         </div>
@@ -117,6 +131,16 @@
                 </button>
             </div>
             <div id="movies-grid" class="movies-grid"></div>
+        </div>
+    </section>
+
+    <!-- Continue Watching -->
+    <section id="continue-watching-row" class="content-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Continue Watching</h2>
+            <div class="movies-grid" id="continue-watching-movies">
+                <!-- Continue watching movies will be loaded here -->
+            </div>
         </div>
     </section>
 
@@ -261,7 +285,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5><i class="fas fa-film me-2"></i>NetMirror</h5>
+                    <h5><i class="fas fa-film me-2"></i>Galaxy Movies</h5>
                     <p>Your ultimate destination for streaming movies and TV shows online. Experience the best of entertainment with our comprehensive collection.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
